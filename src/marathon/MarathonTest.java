@@ -1,4 +1,4 @@
-package hash1;
+package marathon;
 
 import org.junit.jupiter.api.Test;
 

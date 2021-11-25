@@ -1,4 +1,4 @@
-package hash1;
+package marathon;
 
 import java.util.ArrayList;
 import java.util.Arrays;
