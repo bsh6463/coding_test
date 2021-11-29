@@ -11,17 +11,13 @@ public class StockPrice {
       //{1, 2, 3, 2, 3}
         for (int i=0; i<prices.length; i++){
             int price = prices[i];
-            int count = 0;
 
             for (int j=i+1; j<prices.length; j++){
-                if (prices[j] >= price){
-                    count++;
-                }else {
-                    count++;
+                answer[i]++;
+                if (prices[j] < price){
                     break;
                 }
             }
-            answer[i]= count;
         }
 
         return answer;
