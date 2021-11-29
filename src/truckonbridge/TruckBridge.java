@@ -12,6 +12,8 @@ public class TruckBridge {
      */
     public int solution(int bridge_length, int weight, int[] truck_weights) {
 
+        int time=0;
+
         // 다리 : index 1 -> 0
         Queue<Truck> bridge = new LinkedList<>();
         Queue<Truck> truckQueue = new LinkedList<>();
@@ -21,29 +23,26 @@ public class TruckBridge {
             truckQueue.add(new Truck(truck_weights[i], 0));
         }
 
-        int time=1;
-        Truck truck = truckQueue.peek();
-        bridge.add(truck);
-        truck.go();
-        truck = truckQueue.remove();
-        int totalWeight = truck.getWeight();
+        int totalWeight = 0;
 
-        System.out.println("=====다 리======");
-        System.out.println("time : " + time);
-        bridge.forEach(t -> System.out.println("truck : " +t.getWeight()));
-
-        while (true){
-
+        while (!bridge.isEmpty() || !truckQueue.isEmpty()){
             time++;
 
-            truck = truckQueue.peek();
+            if(bridge.isEmpty()){
+                Truck truck = truckQueue.peek();
+                bridge.add(truck);
+                truck.go();
+                truck = truckQueue.remove();
+                totalWeight = truck.getWeight();
+                continue;
+            }
+
+            Truck truck = truckQueue.peek();
 
             //차량 이미 있는 경우 차량 이동.
             totalWeight = moveTruck(bridge_length, bridge, totalWeight);
 
-            if (bridge.isEmpty() && truckQueue.isEmpty()){
-                break;
-            }
+
 
             //신규차량 진입 가능 조건.
             if(bridge.size() < bridge_length && truck != null && isLEWeight(totalWeight+ truck.getWeight(), weight)){
@@ -57,12 +56,7 @@ public class TruckBridge {
             System.out.println("time : " + time);
             bridge.forEach(t -> System.out.println("truck : " +t.getWeight()));
 
-            if (bridge.isEmpty() && truckQueue.isEmpty()){
-                break;
-            }
-
         }
-
 
         return time;
     }
