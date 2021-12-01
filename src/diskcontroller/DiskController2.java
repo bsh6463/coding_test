@@ -1,24 +1,33 @@
 package diskcontroller;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.PriorityQueue;
 
 
-public class DiskController {
+public class DiskController2 {
 
     public int solution(int[][] jobs) {
         int sum = 0;
         int endTime = 0;
-        ArrayList<Job> tempContainer = new ArrayList<>();
 
-        Job prevJob = null;
+        Arrays.sort(jobs, new Comparator<int[]>() {
+            @Override
+            public int compare(int[] o1, int[] o2) {
+                return o1[0]-o2[0];
+            }
+        });
+
+        ArrayList<Job> tempContainer = new ArrayList<>();
         PriorityQueue<Job> jobQueue = new PriorityQueue<>();
+        Job prevJob = null;
 
         for (int i=0; i<jobs.length; i++){
             int[] job = jobs[i];
             if (i==0){
                 prevJob = new Job(job[0], job[1]);
-                prevJob.setStartTime(0);
+                prevJob.setStartTime(job[0]);
                 endTime = prevJob.getEndTime();
                 sum = prevJob.getTotalTime();
                 System.out.println(prevJob);
@@ -27,8 +36,11 @@ public class DiskController {
             }
         }
 
+
       while (!jobQueue.isEmpty()){
+
           Job job = jobQueue.remove();
+
           if (job.getRequestTime() > prevJob.getEndTime()){
               tempContainer.add(job);
               job = jobQueue.remove();
@@ -42,6 +54,7 @@ public class DiskController {
               jobQueue.addAll(tempContainer);
               tempContainer.clear();
           }
+
           System.out.println(job);
       }
 
@@ -98,9 +111,9 @@ public class DiskController {
 
 
     public static void main(String[] args) {
-        DiskController controller = new DiskController();
+        DiskController2 controller = new DiskController2();
 
-        int[][] jobs = {{0,3}, {1,9}, {5,6}};
+        int[][] jobs = {{1,9},{0,5}, {2,3}};
 
         int answer = controller.solution(jobs);
 
