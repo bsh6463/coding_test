@@ -11,9 +11,11 @@ public class KthNumber {
 
         int j=0;
         for (int[] command : commands) {
+
             for (int i=command[0] -1; i <command[1]; i++ ){
                 temp.add(array[i]);
             }
+
             temp.sort(new Comparator<Integer>() {
                 @Override
                 public int compare(Integer o1, Integer o2) {
@@ -28,6 +30,7 @@ public class KthNumber {
 
         return answer;
     }
+
 
     public static void main(String[] args) {
         int[] array = {1,5,2,6,3,7,4};
