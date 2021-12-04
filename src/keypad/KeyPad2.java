@@ -15,8 +15,7 @@ public class KeyPad2 {
         Hand right = new Hand(12);
 
         for (int i=0; i< numbers.length; i++){
-            int number = numbers[i];
-            answer += pressButton(hand, left, right, number);
+            answer += pressButton(hand, left, right, numbers[i]);
         }
         return answer;
     }
