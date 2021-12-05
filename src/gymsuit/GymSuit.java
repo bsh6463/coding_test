@@ -1,49 +1,48 @@
 package gymsuit;
 
-import java.util.Arrays;
-
 public class GymSuit {
     public int solution(int n, int[] lost, int[] reserve) {
         int[] count = new int[n];
-
-        //각자 가지고 있는 체육복 수량
-        for (int i=0; i<n; i++){
-            count[i] = 1;
-            for (int surplus : reserve) {
-                if (i+1 == surplus){
-                    count[i]++;
-                }
-            }
-
-            for (int minus : lost) {
-                if (i+1 == minus){
-                    count[i]--;
-                }
-            }
+        int answer = n;
+        for (int surplus : reserve) {
+            count[surplus-1]++;
         }
 
+        for (int minus : lost) {
+            if (--count[minus-1] < 0){
+             answer--;
+            }
+
+        }
+
+        //-1: 없음 , 0: 1개있음, 1: 2개있음
+        // 0보타 크냐 작냐가 중요함.
         for (int i=1; i<n-1; i++){
-            if (count[i] > 1){
-                if (count[i-1] == 0){
+            if (count[i] > 0){
+                if (count[i-1] < 0){
                     count[i]--;
                     count[i-1]++;
-                }else if (count[i+1]==0){
+                    answer++;
+                }else if (count[i+1] <0){
                     count[i]--;
                     count[i+1]++;
+                    answer++;
                 }
 
-            }else if (count[i] ==0 ){
-                if (count[i-1] > 1){
+            }else if (count[i] < 0){
+                if (count[i-1] > 0){
                     count[i]++;
                     count[i-1]--;
-                }else if (count[i+1] > 1){
+                    answer++;
+                }else if (count[i+1] > 0){
                     count[i]++;
                     count[i+1]--;
+                    answer++;
                 }
             }
         }
 
-        return (int) Arrays.stream(count).filter(c -> c != 0).count();
+        return answer;
     }
 
     public static void main(String[] args) {
