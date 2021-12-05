@@ -1,10 +1,9 @@
 package keypad;
 
-
 public class KeyPad2 {
 
     public String solution(int[] numbers, String hand) {
-        String answer = "";
+        StringBuilder answer = new StringBuilder();
 
         for (int i=0; i<numbers.length; i++){
             if (numbers[i] == 0){
@@ -15,9 +14,9 @@ public class KeyPad2 {
         Hand right = new Hand(12);
 
         for (int i=0; i< numbers.length; i++){
-            answer += pressButton(hand, left, right, numbers[i]);
+            answer.append(pressButton(hand, left, right, numbers[i]));
         }
-        return answer;
+        return answer.toString();
     }
 
     private String pressButton(String hand, Hand left, Hand right, int number) {
