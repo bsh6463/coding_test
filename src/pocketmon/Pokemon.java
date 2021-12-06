@@ -10,18 +10,13 @@ public class Pokemon {
         Arrays.sort(nums);
 
         int before=0;;
-        for (int i=0; i<nums.length; i++){
-
-            if (nums[i] != before){
+        for (int num : nums) {
+            if (num != before) {
                 pokemonCount++;
-                before = nums[i];
+                before = num;
             }
         }
 
-        if (pokemonCount >= n){
-            return n;
-        }else{
-            return pokemonCount;
-        }
+        return Math.min(pokemonCount, n);
     }
 }
