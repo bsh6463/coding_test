@@ -3,38 +3,38 @@ package failurerate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
-import java.util.PriorityQueue;
 
 public class FailureRate2 {
     public int[] solution(int N, int[] stages) {
         int[] answer =  new int[N];
-        double approached = 0; //나누기 해서 소수표시하려고
-        double appAndPass = 0;
-        ArrayList<Stage> container = new ArrayList<>();
+        int totalNumber = stages.length;
+        ArrayList<Stage> container = new ArrayList<>(N);
+        ArrayList<Double> count = new ArrayList<>(N);
 
+        for (int i=0; i<N;i++){
+            count.add(i, 0.0);
+        }
         //1부터 N까지 돌면서
         // i  == stage -> 도달했으나, 깨지 못함.
         // i <= stage -> 현재 stage 도달, 넘어간 사람
 
-        for(int i=1; i<=N; i++){
-            for (int stage : stages) {
-                if (stage == i){
-                    approached++;
-                    appAndPass++;
-                }else if (stage > i){
-                    appAndPass++;
-                }
-            }
-
-            //분모로 들어가는 현재 스테이지 도달한 사람의 수가 0일 수 있음.
-            if (appAndPass != 0){
-                container.add(new Stage(approached / appAndPass, i));
-            }else {
-                container.add(new Stage(0.0, i));
-            }
-            approached = 0;
-            appAndPass = 0;
+        //각 단계에 몇명 있는지 구분 1 -> 0, 2 -> 1
+        for (int i=0; i < stages.length;i++){
+            count.add(stages[i]-1, count.get(stages[i]-1)+1);
         }
+
+        int countPeople = 0;
+        for (int i=1; i<=N; i++){
+            int appAndPass = totalNumber - countPeople;
+            if (appAndPass !=0){
+                container.add(new Stage(count.get(i-1)/(appAndPass), i));
+            }else {
+                container.add(new Stage(0.0,i));
+            }
+            countPeople += count.get(i);
+        }
+
+
 
         answer = container.stream().sorted(new Comparator<Stage>() {
             @Override
@@ -63,8 +63,8 @@ public class FailureRate2 {
 
     public static void main(String[] args) {
 
-        int N = 4;
-        int[] stages = {4,4,4,4,4};
+        int N = 5;
+        int[] stages = {2, 1, 2, 6, 2, 4, 3, 3};
 
         FailureRate2 failureRate = new FailureRate2();
         int[] solution = failureRate.solution(N, stages);
