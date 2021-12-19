@@ -2,7 +2,7 @@ package level2.zipstring;
 
 import java.util.ArrayList;
 
-public class ZipString {
+public class ZipString2 {
     public int solution(String s) {
         int answer = s.length();
         for (int i=1; i<=s.length()/2+1; i++){
@@ -54,7 +54,7 @@ public class ZipString {
 
     public static void main(String[] args) {
         String s = "aabbaccc";
-        ZipString zipString = new ZipString();
+        ZipString2 zipString = new ZipString2();
         int solution = zipString.solution(s);
         System.out.println("===answer====");
         System.out.println(solution);
